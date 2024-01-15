@@ -4,49 +4,64 @@
 
 #include <assert.h>  /* assert() */
 
-#define BOARD_SIZE 3
+#define BOARD_SIZE 4
 #define CELL_MAX (BOARD_SIZE * BOARD_SIZE - 1)
 
 void print_board(char board[BOARD_SIZE][BOARD_SIZE])
 {
     int cell = 0;
-    printf("\t .................................................\n");
+    printf("\t ....................................................................\n");
     for (int row = 0; row < BOARD_SIZE; ++row) {
         for (int column = 0; column < BOARD_SIZE; ++column) {
             printf("\t | %d: %c ", cell, board[row][column]);
             ++cell;
         }
         printf("\t | \n");
-        printf("\t .................................................\n");
+        printf("\t ...............................................................\n");
     }
 }
 
 char get_winner(char board[BOARD_SIZE][BOARD_SIZE])
 {
-    board = board;
     char winner = '-';
 
     // IMPLEMENTAR
     //check rows and columns
     for (unsigned int i = 0; i < BOARD_SIZE; i++)
     {
-        if (board[i][0] == board[i][1] && board[i][0] == board[i][2])
+        char row_winner = board[0][0];
+        char col_winner = board[0][0];
+        for (unsigned int j = 1; j < BOARD_SIZE; j++)
         {
-            winner = board[i][0];
+            row_winner = (row_winner == board[i][j] && row_winner != '-') ? row_winner : '-';
+            col_winner = (col_winner == board[j][i] && col_winner != '-') ? col_winner : '-';
         }
-        if (board[0][i] == board[1][i] && board[0][i] == board[2][i])
+        if (row_winner != '-')
         {
-            winner = board[0][i];
+            return row_winner;
+        }
+        if (col_winner != '-')
+        {
+            return col_winner;
         }
     }
+    
     //check diagonal
-    if (board[0][0] == board[1][1] && board[0][0] == board[2][2])
-    {
-        winner = board[0][0];
+    char main_diag = board[0][0];
+    char anti_diag = board[0][BOARD_SIZE-1];
+
+    for (unsigned int i = 1; i < BOARD_SIZE; i++) {
+        main_diag = (main_diag == board[i][i] && main_diag != '-') ? main_diag : '-';
+        anti_diag = (anti_diag == board[i][BOARD_SIZE - 1 - i] && anti_diag != '-') ? anti_diag : '-';
     }
-    if (board[2][0] == board[1][1] && board[2][0] == board[0][2])
+
+    if (main_diag != '-')
     {
-        winner = board[2][0];
+        return main_diag;
+    }
+    if (anti_diag != '-')
+    {
+        return anti_diag;
     }
     
     return winner;
@@ -54,9 +69,7 @@ char get_winner(char board[BOARD_SIZE][BOARD_SIZE])
 
 bool has_free_cell(char board[BOARD_SIZE][BOARD_SIZE])
 {
-    board = board;
-
-    // IMPLEMENTAR
+    
     for (unsigned int i = 0; i < BOARD_SIZE; i++)
     {
         for (unsigned int j = 0; j < BOARD_SIZE; j++)
@@ -72,22 +85,26 @@ bool has_free_cell(char board[BOARD_SIZE][BOARD_SIZE])
     return false;
 }
 
+void add_dash (char board[BOARD_SIZE][BOARD_SIZE], unsigned int b_size) {
+    for (unsigned int i = 0; i < b_size; i++) {
+        for (unsigned int j = 0; j < b_size; j++) {
+            board[i][j] = '-';
+        }
+    }
+}
+
 int main(void)
 {
     printf("TicTacToe [InCoMpLeTo :'(]\n");
 
-    char board[BOARD_SIZE][BOARD_SIZE] = {
-        { '-', '-', '-' },
-        { '-', '-', '-' },
-        { '-', '-', '-' }
-    };
-
+    char board[BOARD_SIZE][BOARD_SIZE];
+    add_dash(board, BOARD_SIZE);
     char turn = 'X';
     char winner = '-';
     int cell = 0;
     while (winner == '-' && has_free_cell(board)) {
         print_board(board);
-        printf("\nTurno %c - Elija posición (número del 0 al 8): ",
+        printf("\nTurno %c - Elija posición: ",
                turn);
         int scanf_result = scanf("%d", &cell);
         if (scanf_result <= 0) {
