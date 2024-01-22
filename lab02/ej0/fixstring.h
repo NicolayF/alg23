@@ -13,7 +13,6 @@ unsigned int fstring_length(fixstring s);
  *
  */
 
-
 bool fstring_eq(fixstring s1, fixstring s2);
 /*
  * Indicates if <s1> has the same content than string <s2>
