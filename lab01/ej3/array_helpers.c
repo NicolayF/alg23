@@ -25,5 +25,4 @@ void array_dump(int a[], unsigned int length) {
         printf("%d ", a[i]);
     }
     printf("\n");
-    
 }
