@@ -2,16 +2,20 @@
 #include <stdio.h>
 
 void absolute(int x, int *y) {
-    //
-    // Completar aquí
-    //
+    if(x >= 0) {
+        *y = x;
+    }
+    else {
+        *y = -x;
+    }
 }
 
 int main(void) {
     int a=0, res=0;  // No modificar esta declaración
-    //
-    // Completar aquí
-    //
+    a = -1;
+    absolute(a, &res);
+    printf("%d,%d", a,res);
+    printf("\n"); 
     return EXIT_SUCCESS;
 }
 
