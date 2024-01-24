@@ -12,8 +12,27 @@ static void dump(char a[], unsigned int length) {
     printf("\n\n");
 }
 
-int main(/* -- completar-- */) {
+unsigned int data_from_file(const char *path,
+                            unsigned int indexes[],
+                            char letters[],
+                            unsigned int max_size) {
     FILE *file;
+    file = fopen(path, "r");
+    if(file == NULL) {
+        perror("error de archivo\n");
+        return 0;
+    }
+    unsigned int i = 0;
+    while(!feof(file)) {
+        fscanf(file, "%u -> *%c*\n", &indexes[i], &letters[i]);
+        i++;
+    }
+    fclose(file);
+    return i;
+}
+
+int main(int argc, char *argv[]) {
+    const char *file = argv[1];
     unsigned int indexes[MAX_SIZE];
     char letters[MAX_SIZE];
     char sorted[MAX_SIZE];
@@ -21,11 +40,15 @@ int main(/* -- completar-- */) {
     //  .----------^
     //  :
     // Debe guardarse aqui la cantidad de elementos leidos del archivo
+    if(argc != 2) {
+        printf("pocos argumentos\n");
+        return 1;
+    }
     
-    /* -- completar -- */
+    length = data_from_file(file, indexes, letters, MAX_SIZE);
 
-    dump(sorted, length);
+    dump(letters, length);
+    //dump(sorted, length);
 
     return EXIT_SUCCESS;
 }
-
