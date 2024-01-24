@@ -48,7 +48,12 @@ int main(int argc, char *argv[]) {
     length = data_from_file(file, indexes, letters, MAX_SIZE);
 
     dump(letters, length);
-    //dump(sorted, length);
+
+    for (unsigned int i = 0; i < length; i++) {
+        sorted[indexes[i]] = letters[i];
+    }
+
+    dump(sorted, length);
 
     return EXIT_SUCCESS;
 }
