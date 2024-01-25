@@ -19,8 +19,12 @@ int main(void) {
     printf("name-size  : %lu bytes\n"
            "age-size   : %lu bytes\n"
            "height-size: %lu bytes\n"
-           "data_t-size: %lu bytes\n", /* Completar */);
+           "data_t-size: %lu bytes\n", sizeof(messi.age), sizeof(messi.age), sizeof(messi.height),sizeof(data_t));
 
+    //char name[30] ocupa 30,
+    //age 4
+    //height 4
+    //total 38, entonces data_t debe alocar al menos 40.(multiplos de 4)
     return EXIT_SUCCESS;
 }
 
