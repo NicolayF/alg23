@@ -10,6 +10,7 @@
 
 /* Then, this project's includes, alphabetically ordered */
 #include "array_helpers.h"
+#include "weather_utils.h"
 
 /**
  * @brief print usage help
@@ -72,6 +73,19 @@ int main(int argc, char *argv[]) {
 
     /* show the ordered array in the screen */
     array_dump(array);
+
+    printf("\n");
+    int out[YEARS];
+    unsigned int out2[YEARS];
+    printf("temp hist min %d\n", historica_temp_min(array));
+    año_temp_max(array, out);
+    mes_prec_max(array, out2);
+    for (unsigned int i = 0; i < YEARS; i++) {
+        printf("año_temp_max %d %d\n", 1980+i, out[i]);
+    }
+    for (unsigned int i = 0; i < YEARS; i++) {
+        printf("mes_prec_max %d %u\n", 1980+i, out2[i]+1);
+    }
 
     return (EXIT_SUCCESS);
 }
