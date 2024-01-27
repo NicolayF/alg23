@@ -6,7 +6,7 @@
 typedef int list_elem;
 typedef struct _list * list;
 
-list empty();
+list empty_list();
 
 void addl(list l, list_elem e);
 
