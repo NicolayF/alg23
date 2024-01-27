@@ -33,22 +33,34 @@ char *parse_filepath(int argc, char *argv[]) {
 
 
 float average(list l) {
-/*
-    Needs implementation.
-*/
+    unsigned int largo = list_length(l);
+    float res = 0.0;
+    list laux = empty_list();
+    laux = copy_list(l);
+    while(!is_empty(laux)) {
+        res += head(laux);
+        laux = tail(laux);
+    }
+    destroy(laux);
+    if(largo != 0) {
+        res = res / largo;
+    }
+    return res;
 }
 
 list array_to_list(int array[], unsigned int length) {
     /* Initialize the list */
+    list l = empty_list();
     for (unsigned int i = 0u; i < length; ++i) {
-        /* Add element to the list  */
+        l = addr(l, array[i]);
     }
     /* Return list */
+    return l;
 }
 
 int main(int argc, char *argv[]) {
     char *filepath = NULL;
-    FILE *file = NULL;
+    //FILE *file = NULL;
 
     /* parse the filepath given in command line arguments */
     filepath = parse_filepath(argc, argv);
@@ -67,6 +79,7 @@ int main(int argc, char *argv[]) {
 
     /* call the average function */
     printf("The average is: %.2f \n", average(l));
+    destroy(l);
 
     return (EXIT_SUCCESS);
 }

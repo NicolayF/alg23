@@ -13,7 +13,7 @@ list empty_list() {
 }
 
 void addl(list l, list_elem e) {
-    list new_node = malloc(sizeof(list));
+    list new_node = malloc(sizeof(struct _list));
     new_node->elem = e;
     new_node->next = l->next;
     l = new_node;
@@ -28,41 +28,49 @@ list_elem head(list l) {
     return l->elem;
 }
 
-void tail(list l) {
+list tail(list l) {
     assert(!is_empty(l));
     list aux = l;
-    l = aux->next;
+    l = l->next;
     free(aux);
     aux = NULL;
+    return l;
 }
 
 void destroy(list l) {
-    while(!is_empty(l)) {
-        tail(l);
+    list r = l;
+    while(l != NULL) {
+        l = l->next;
+        free(r);
+        r = l;  
     }
 }
 
-void addr(list l, list_elem e) {
-    list q,r;
-    q = malloc(sizeof(list));
+list addr(list l, list_elem e) {
+    list q = empty_list();
+    list r = empty_list();
+    r = l;
+    q = malloc(sizeof(struct _list));
     q->elem = e;
     q->next = NULL;
     if(l == NULL) {
         l = q;
     }
     else {
-        r = l;
+        //r = l;
         while(r->next != NULL) {
             r = r->next;
         }
         r->next = q;
     }
+    return l;
 }
 
-unsigned int length(list l) {
+unsigned int list_length(list l) {
     unsigned int count = 0;
-    list r = l;
-    while(r->next != NULL) {
+    list r = empty_list();
+    r = l;
+    while(r != NULL) {
         r = r->next;
         count++;
     }
@@ -78,7 +86,7 @@ void concat(list l, list l0) {
 }
 
 list_elem index(list l, unsigned int n) {
-    assert(length(l) > n);
+    assert(list_length(l) > n);
     list r = l;
     for (unsigned int i = 0; i < n; i++) {
         r = r->next;
@@ -101,11 +109,12 @@ void drop(list l, unsigned int n) {
 }
 
 list copy_list(list l) {
-    list new_list = empty_list();
-    list r = l;
-    while(r->next != NULL) {
-        addr(new_list, r->elem);
+    list copy_list = empty_list();
+    list r = empty_list(); 
+    r = l;
+    while(r != NULL) {
+        copy_list = addr(copy_list, r->elem);
         r = r->next;
     }
-    return new_list;
+    return copy_list;
 }

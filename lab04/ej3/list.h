@@ -14,11 +14,11 @@ bool is_empty(list l);
 
 list_elem head(list l);
 
-void tail(list l);
+list tail(list l);
 
-void addr(list l, list_elem e);
+list addr(list l, list_elem e);
 
-unsigned int length(list l);
+unsigned int list_length(list l);
 
 void concat(list l, list l0);
 
