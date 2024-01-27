@@ -9,7 +9,7 @@ struct _counter {
 };
 
 counter counter_init(void) {
-    counter c = malloc(sizeof(counter));
+    counter c = malloc(sizeof(struct _counter));
     c->count = 0;
     return c;
 }
@@ -28,7 +28,7 @@ void counter_dec(counter c) {
 }
 
 counter counter_copy(counter c) {
-    counter c_copy = malloc(sizeof(counter));
+    counter c_copy = malloc(sizeof(struct _counter));
     c_copy->count = c->count;
     return c_copy;
 }
