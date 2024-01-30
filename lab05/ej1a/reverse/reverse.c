@@ -61,9 +61,9 @@ int main(int argc, char *argv[]) {
       new_stack = stack_push(new_stack, array[i]);
   }
   new_array = stack_to_array(new_stack);
-  
-
   printf("Reversed: ");
   array_dump(new_array, length);
+  new_stack = stack_destroy(new_stack);
+  free(new_array);
   return (EXIT_SUCCESS);
 }

@@ -3,71 +3,73 @@
 #include "stack.h"
 
 struct _s_stack {
+    unsigned int size;
+    node top;
+};
+
+struct _s_node {
     stack_elem elem;
-    stack next;
+    node next;
 };
 
 stack stack_empty() {
-    stack new_stack = NULL;
+    stack new_stack = malloc(sizeof(struct _s_stack));
+    new_stack->size = 0;
+    new_stack->top = NULL;
     return new_stack;
 }
 
 stack stack_push(stack s, stack_elem e) {
-    stack new_stack = stack_empty();
-    new_stack = malloc(sizeof(struct _s_stack));
-    new_stack->elem = e;
-    new_stack->next = s;
-    s = new_stack;
+    node new_node = malloc(sizeof(struct _s_node));
+    new_node->elem = e;
+    new_node->next = s->top;
+    s->top = new_node;
+    s->size++;
     return s;
 }
 
 stack stack_pop(stack s) {
     assert(!stack_is_empty(s));
-    stack s_temp = s;
-    s = s->next;
-    free(s_temp);
+    node n_temp = s->top;
+    s->top = s->top->next;
+    free(n_temp);
+    s->size--;
     return s;
 }
 
 unsigned int stack_size(stack s) {
-    unsigned int length = 0;
-    stack s_temp = s;
-
-    while (s_temp != NULL){ 
-        length++;
-        s_temp = s_temp->next;
-    }
-    return length; 
+    return s->size;
 }
 
 stack_elem stack_top(stack s) {
     assert(!stack_is_empty(s));
-    return s->elem;
+    return s->top->elem;
 }
 
 bool stack_is_empty(stack s) {
-    return s == NULL;
+    return s->size == 0;
 }
 
 stack_elem *stack_to_array(stack s) {
     stack_elem *array = NULL;
     if(stack_size(s) > 0){
         array = calloc(stack_size(s), sizeof(stack_elem));
-        stack s_temp = s;
+        node n_temp = s->top;
         for (unsigned int i = 0; i < stack_size(s); i++) {
-            array[i] = s_temp->elem;
-            s_temp = s_temp->next;
+            array[i] = n_temp->elem;
+            n_temp = n_temp->next;
         }
     }
     return array;
 }
 
 stack stack_destroy(stack s) {
-    stack s_temp = s;
-    while(s == NULL){
-        s = s->next;
-        free(s_temp);
-        s_temp = s;
+    node n_temp = s->top;
+    while(s->top != NULL){
+        s->top = s->top->next;
+        free(n_temp);
+        n_temp = s->top;
     }
+    free(s);
     return s;
 }
