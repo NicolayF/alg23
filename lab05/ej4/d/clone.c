@@ -4,9 +4,18 @@
 #include <string.h>
 
 char *string_clone(const char *str) {
-    char *clone=NULL;
-    /* COMPLETAR */
-    return clone;
+    if(str=NULL){
+        return NULL;
+    }
+    else{
+        size_t len = strlen(str);
+        char *clone=malloc((len+1)*sizeof(char));
+        if(clone==NULL){
+            return NULL;
+        }
+        strcpy(clone,str);
+        return clone;
+    }
 }
 
 
