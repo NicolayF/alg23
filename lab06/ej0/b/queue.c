@@ -79,12 +79,12 @@ unsigned int queue_size(queue q) {
 
 queue queue_dequeue(queue q) {
     assert(invrep(q) && !queue_is_empty(q));
-    struct s_node * killme=q->first;
+    struct s_node * n_temp = q->first;
     q->first = q->first->next;
-    killme = destroy_node(killme);
+    q->size--;
+    free(n_temp);
     assert(invrep(q));
     return q;
-
 }
 
 queue queue_disscard(queue q, unsigned int n) {
