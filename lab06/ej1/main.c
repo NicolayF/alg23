@@ -69,16 +69,7 @@ int main(int argc, char *argv[]) {
 
     /*dumping the tree*/
     abb_dump(tree);
-    if (!abb_is_empty(tree)) {
-        printf("\n");
-        printf("raiz: %d\n minimo: %d\n maximo: %d\n", abb_root(tree),
-                                                       abb_min(tree),
-                                                       abb_max(tree));
-    } else {
-        printf("\nÁrbol vacío\n");
-    }
 
-    tree = abb_destroy(tree);
     /*
      * Modificar e implementar con un ciclo una interfaz que permita al usuario
      * realizar una de las siguientes operaciones en cada iteración:
@@ -99,5 +90,65 @@ int main(int argc, char *argv[]) {
      * Al salir debe liberarse toda la memoria utilizada.
      *
      */
+    bool exit = true;
+    unsigned int menu;
+    while(exit){
+        printf("\n"
+        "Ingrese\n"
+        "* 1 ........ Mostrar árbol por pantalla\n"
+        "* 2 ........ Agregar un elemento\n"
+        "* 3 ........ Eliminar un elemento\n"
+        "* 4 ........ Chequear existencia de elemento\n"
+        "* 5 ........ Mostrar longitud del árbol\n"
+        "* 6 ........ Mostrar raiz, máximo y mínimo del árbol\n"
+        "* 7 ........ Salir\n");
+        scanf("%u", &menu);
+        switch(menu){
+            case 1:
+                abb_dump(tree);
+                if(abb_is_empty(tree)){
+                    printf("El árbol está vacío\n");
+                }
+                break;
+            case 2:
+                printf("Ingrese el elemento a agregar\n");
+                abb_elem elem;
+                scanf("%d", &elem);
+                tree = abb_add(tree, elem);
+                break;
+            case 3:
+                printf("Ingrese el elemento a eliminar\n");
+                abb_elem elem2;
+                scanf("%d", &elem2);
+                tree = abb_remove(tree, elem2);
+                break;
+            case 4:
+                printf("Ingrese el elemento a buscar\n");
+                abb_elem elem3;
+                scanf("%d", &elem3);
+                if (abb_exists(tree, elem3)) {
+                    printf("El elemento %d existe\n", elem3);
+                } else {
+                    printf("El elemento %d no existe\n", elem3);
+                }
+                break;
+            case 5:
+                printf("La longitud del arbol es %u", abb_length(tree));
+                break;
+            case 6:
+                if(!abb_is_empty(tree)){
+                    printf("raiz: %d\nminimo: %d\nmaximo: %d\n", abb_root(tree),
+                                                        abb_min(tree),
+                                                        abb_max(tree));
+                }
+                else{
+                    printf("El árbol está vacío\n");
+                }
+                break;
+            case 7:
+                tree = abb_destroy(tree);
+                exit = false;
+        }
+    }
     return (EXIT_SUCCESS);
 }
