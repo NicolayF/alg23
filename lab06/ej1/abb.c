@@ -174,8 +174,8 @@ abb_elem abb_min(abb tree) {
 void abb_dump(abb tree) {
     assert(invrep(tree));
     if (tree != NULL) {
-        abb_dump(tree->left);
         printf("%d ", tree->elem);
+        abb_dump(tree->left);
         abb_dump(tree->right);
     }
 }
