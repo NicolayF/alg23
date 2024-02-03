@@ -52,8 +52,7 @@ abb abb_from_file(const char *filepath) {
             exit(EXIT_FAILURE);
         }
         read_tree = abb_add(read_tree, elem);
-
-       ++i;
+        ++i;
     }
     fclose(file);
     return read_tree;
