@@ -58,26 +58,31 @@ unsigned int line_length(domino_line line)
 bool line_n_correct(domino_line line, unsigned int n)
 {
     assert(n < line_length(line));
-    bool is_correct = true;
-    if(n > 0){
-        line_iterator current = line->fst;
-        line_iterator checker = line->fst;
-        for (unsigned int i = 0; i < n-1; i++) {
-            current = current->next;
-            checker = checker->next;
-        }
+    if(line_length(line) == 1)
+    {
+        return true;
+    }
+    line_iterator current = line->fst->next;
+    line_iterator before = line->fst;
+    line_iterator after = NULL;
+    for (unsigned int i = 1; i < n; i++)
+    {
         current = current->next;
-        if(!domino_matches(current->dom, checker->dom)){
+        before = before->next;  
+    }
+    after = current->next;
+    if(!domino_matches(before->dom, current->dom))
+    {
+        return false;
+    }
+    if(after != NULL)
+    {
+        if(!domino_matches(current->dom, after->dom))
+        {
             return false;
         }
-        checker = current->next;
-        if(checker != NULL){
-            if(!domino_matches(checker->dom ,current->dom)){
-                return false;
-            }
-        }
     }
-    return is_correct;
+    return true;
 }
 
 int line_total_points(domino_line line)
@@ -112,11 +117,12 @@ domino_line line_destroy(domino_line line)
     line_iterator aux = line->fst;
     while (aux!= NULL){
         aux = aux->next;
-        domino_destroy(aux->dom);
+        line->fst->dom = domino_destroy(line->fst->dom);
         free(line->fst);
         line->fst = aux;
     }
     free(line);
+    line = NULL;
     assert(line == NULL);
     return line;
 }
