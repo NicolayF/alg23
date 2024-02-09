@@ -235,7 +235,7 @@ int run_file(const char* filename, bool do_verify)
     for (unsigned int i = 0; i < array_length; i++)
     {
         print_tile(line_array[i]);
-        array_fail = array_fail || line_array[i] != tiles[i];
+        array_fail = array_fail || (domino_up(line_array[i]) != domino_up(tiles[i])) || (domino_down(line_array[i]) != domino_down(tiles[i]));
         printf(i != array_length - 1 ? ", " : " ");
     }
     printf("] ");
